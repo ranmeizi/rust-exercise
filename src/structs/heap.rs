@@ -4,10 +4,12 @@ pub struct MinHeap {
 }
 
 impl MinHeap {
+    // new
     pub fn new() -> MinHeap {
         MinHeap { array: vec![] }
     }
 
+    // from
     pub fn from(array: Vec<usize>) -> MinHeap {
         let mut heap = MinHeap::new();
 
@@ -16,21 +18,25 @@ impl MinHeap {
         heap
     }
 
+    // 长度
     pub fn size(&self) -> usize {
         self.array.len()
     }
 
+    // from 初始化
     pub fn init(&mut self, array: Vec<usize>) {
         for el in array.iter() {
             self.push(*el)
         }
     }
 
+    // 添加尾节点
     pub fn push(&mut self, num: usize) {
         self.array.push(num);
         self.percolate_up(self.array.len() - 1)
     }
 
+    // 弹出头节点
     pub fn pop(&mut self) -> usize {
         let item = self.array[0];
 
@@ -43,6 +49,7 @@ impl MinHeap {
         item
     }
 
+    // 获取左节点索引
     fn left_son(&self, index: usize) -> Option<usize> {
         let res = index * 2 + 1;
         if res < self.array.len() {
@@ -52,6 +59,7 @@ impl MinHeap {
         }
     }
 
+    // 获取右节点索引
     fn right_son(&self, index: usize) -> Option<usize> {
         let res = index * 2 + 2;
         if res < self.array.len() {
@@ -61,6 +69,7 @@ impl MinHeap {
         }
     }
 
+    // 获取父节点索引
     fn parent(&self, index: usize) -> Option<usize> {
         if index == 0 {
             None
@@ -69,12 +78,14 @@ impl MinHeap {
         }
     }
 
+    // 交换2个元素
     fn swap(&mut self, i1: usize, i2: usize) {
         let temp = *self.array.get(i1).unwrap();
         self.array[i1] = self.array[i2];
         self.array[i2] = temp;
     }
 
+    // 节点上滤
     fn percolate_up(&mut self, index: usize) {
         if self.parent(index) == None {
             return;
@@ -89,6 +100,7 @@ impl MinHeap {
         }
     }
 
+    // 节点下滤
     fn percolate_down(&mut self, index: usize) {
         let left_index = self.left_son(index);
         let right_index = self.right_son(index);
